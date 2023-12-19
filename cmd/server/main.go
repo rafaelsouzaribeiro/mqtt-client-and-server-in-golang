@@ -51,7 +51,7 @@ func main() {
 			if err != nil {
 				server.Log.Error("server.Publish", "error", err)
 			}
-			server.Log.Info("main.go direct message to direct/publish")
+			server.Log.Info("main.go direct message to topic/test")
 		}
 	}()
 
