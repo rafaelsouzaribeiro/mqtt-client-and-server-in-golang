@@ -46,7 +46,7 @@ func main() {
 	}()
 
 	go func() {
-		for range time.Tick(time.Second * 5) {
+		for range time.Tick(time.Second * 1) {
 			err := server.Publish("topic/test", []byte("Hello World!\n"), false, 0)
 			if err != nil {
 				server.Log.Error("server.Publish", "error", err)
