@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"os"
 	"os/signal"
@@ -46,12 +47,15 @@ func main() {
 	}()
 
 	go func() {
+		var i = 0
 		for range time.Tick(time.Second * 1) {
-			err := server.Publish("topic/test", []byte("Hello World!\n"), false, 0)
+			message := fmt.Sprintf("Hello World %d!\n", i)
+			err := server.Publish("topic/test", []byte(message), false, 0)
 			if err != nil {
 				server.Log.Error("server.Publish", "error", err)
 			}
 			server.Log.Info("main.go direct message to topic/test")
+			i++
 		}
 	}()
 
