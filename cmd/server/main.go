@@ -18,6 +18,7 @@ func main() {
 	sigs := make(chan os.Signal, 1)
 	done := make(chan bool, 1)
 	signal.Notify(sigs, syscall.SIGINT, syscall.SIGTERM)
+
 	go func() {
 		<-sigs
 		done <- true
@@ -30,10 +31,14 @@ func main() {
 	server := mqtt.New(&opts)
 
 	// Allow all connections.
-	_ = server.AddHook(new(auth.AllowHook), nil)
+	_ = server.AddHook(new(auth.Hook), &auth.Options{
+		Ledger: &auth.Ledger{
+			Auth: auth.AuthRules{ // Auth disallows all by default
+				{Username: "root", Password: "123mudar", Allow: true},
+			}}})
 
 	// Create a TCP listener on a standard port.
-	tcp := listeners.NewTCP("t1", "0.0.0.0:1883", nil)
+	tcp := listeners.NewTCP("t1", "localhost:1883", nil)
 	err := server.AddListener(tcp)
 	if err != nil {
 		log.Fatal(err)
