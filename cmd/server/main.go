@@ -30,7 +30,7 @@ func main() {
 	// Create the new MQTT Server.
 	server := mqtt.New(&opts)
 
-	// Allow all connections.
+	// Auth connections.
 	_ = server.AddHook(new(auth.Hook), &auth.Options{
 		Ledger: &auth.Ledger{
 			Auth: auth.AuthRules{ // Auth disallows all by default
