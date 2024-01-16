@@ -16,13 +16,7 @@ import (
 func main() {
 	// Create signals channel to run server until interrupted
 	sigs := make(chan os.Signal, 1)
-	done := make(chan bool, 1)
-	signal.Notify(sigs, syscall.SIGINT, syscall.SIGTERM)
-
-	go func() {
-		<-sigs
-		done <- true
-	}()
+	signal.Notify(sigs, syscall.SIGINT, syscall.SIGTERM, os.Interrupt)
 
 	opts := mqtt.Options{
 		InlineClient: true,
@@ -65,7 +59,8 @@ func main() {
 	}()
 
 	// Run server until interrupted
-	<-done
+	sigReceived := <-sigs
+	server.Log.Info("Received signal", "signal", sigReceived)
+	server.Close()
 
-	// Cleanup
 }
