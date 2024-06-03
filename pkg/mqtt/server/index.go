@@ -36,10 +36,12 @@ func (b *Broker) SetServer(pay *payload.Payload) {
 		fmt.Println(err)
 	}
 
-	errs := server.Serve()
-	if errs != nil {
-		fmt.Println(errs)
-	}
+	go func() {
+		err := server.Serve()
+		if err != nil {
+			fmt.Println(err)
+		}
+	}()
 
 	go func() {
 		var i = 0
