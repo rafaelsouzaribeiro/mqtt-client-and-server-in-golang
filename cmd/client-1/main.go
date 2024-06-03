@@ -3,60 +3,28 @@ package main
 import (
 	"fmt"
 
-	mqtt "github.com/eclipse/paho.mqtt.golang"
+	"github.com/rafaelsouzaribeiro/mqtt-client-server-golang/pkg/mqtt/client"
+	"github.com/rafaelsouzaribeiro/mqtt-client-server-golang/pkg/payload"
 )
 
-// var messagePubHandler mqtt.MessageHandler = func(client mqtt.Client, msg mqtt.Message) {
-// 	fmt.Printf("Received message: %s from topic: %s\n", msg.Payload(), msg.Topic())
-// }
-
-var connectHandler mqtt.OnConnectHandler = func(client mqtt.Client) {
-	fmt.Println("Connected")
-}
-
-var connectLostHandler mqtt.ConnectionLostHandler = func(client mqtt.Client, err error) {
-	fmt.Printf("Connect lost: %v", err)
-}
-
 func main() {
-	var broker = "localhost"
-	var port = 1883
-	opts := mqtt.NewClientOptions()
-	opts.AddBroker(fmt.Sprintf("tcp://%s:%d", broker, port))
-	//opts.SetClientID("go_mqtt_client")
-	opts.SetUsername("root")
-	opts.SetPassword("123mudar")
-	// opts.SetDefaultPublishHandler(messagePubHandler)
-	opts.OnConnect = connectHandler
-	opts.OnConnectionLost = connectLostHandler
-	client := mqtt.NewClient(opts)
-	if token := client.Connect(); token.Wait() && token.Error() != nil {
-		panic(token.Error())
-	}
 
-	sub(client)
-	// Keep the server running
+	svc := client.NewBroker("localhost", 1883)
+
+	go func() {
+		channel := make(chan payload.Payload)
+		svc.SetClient(payload.Payload{
+			Username: "root",
+			Password: "123mudar",
+			Topic:    "topic/test",
+		}, channel)
+
+		for messages := range channel {
+			fmt.Printf("Message: %s Topic: %s Message ID: %d \n",
+				messages.Message, messages.Topic, messages.MessageId)
+
+		}
+	}()
+
 	select {}
-	// publish(client)
-
-	//client.Disconnect(250)
-}
-
-// func publish(client mqtt.Client) {
-// 	num := 10
-// 	for i := 0; i < num; i++ {
-// 		text := fmt.Sprintf("Message %d", i)
-// 		token := client.Publish("topic/test", 0, false, text)
-// 		token.Wait()
-// 		time.Sleep(time.Second)
-// 	}
-// }
-
-func sub(client mqtt.Client) {
-	topic := "topic/test"
-	token := client.Subscribe(topic, 1, func(c mqtt.Client, m mqtt.Message) {
-		fmt.Printf("Mensagens: %s", m.Payload())
-	})
-	token.Wait()
-	fmt.Printf("Subscribed to topic: %s", topic)
 }
