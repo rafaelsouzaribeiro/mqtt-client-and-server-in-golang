@@ -38,6 +38,16 @@ func (b *Broker) SetClient(pay payload.Payload, canalChan chan<- payload.Payload
 		}
 	})
 
+	b.Client = client
+	b.Topic = pay.Topic
+
 	token.Wait()
 	fmt.Printf("Subscribed to topic: %s", pay.Topic)
+
+}
+
+func (b *Broker) PublishMessage(message string) {
+	token := b.Client.Publish(b.Topic, 1, false, message)
+	token.Wait()
+	fmt.Printf("Published message to topic: %s\n", b.Topic)
 }

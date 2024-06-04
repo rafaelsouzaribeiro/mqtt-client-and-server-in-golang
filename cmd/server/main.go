@@ -12,7 +12,7 @@ func main() {
 		Username: "root",
 		Password: "123mudar",
 		Topic:    "topic/test",
-		Message:  "Message Test",
+		Message:  "Test Message",
 	})
 
 }

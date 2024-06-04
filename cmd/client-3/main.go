@@ -24,7 +24,7 @@ func PublishMessage(clientMessage bool) {
 		}, channel)
 
 		if clientMessage {
-			svc.PublishMessage("Client Message 1")
+			svc.PublishMessage("Client Message 3")
 		}
 
 		for messages := range channel {
