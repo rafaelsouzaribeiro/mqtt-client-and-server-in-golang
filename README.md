@@ -1,1 +1,1 @@
-Send server message to all subscribing clients
+Send server message to all subscribing clients and clients sending message to topic
