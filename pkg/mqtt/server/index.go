@@ -47,7 +47,7 @@ func (b *Broker) SetServer(pay *payload.Payload) {
 		var i = 0
 		for range time.Tick(time.Second * 1) {
 			message := fmt.Sprintf("%s %d!\n", pay.Message, i)
-			err := server.Publish("topic/test", []byte(message), false, 0)
+			err := server.Publish(pay.Topic, []byte(message), false, 0)
 			if err != nil {
 				server.Log.Error("server.Publish", "error", err)
 			}
