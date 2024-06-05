@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"os"
 	"os/signal"
-	"strconv"
 	"syscall"
 	"time"
 
@@ -30,7 +29,11 @@ func (b *Broker) SetServer(pay *payload.Payload) {
 				{Username: auth.RString(pay.Username), Password: auth.RString(pay.Password), Allow: true},
 			}}})
 
-	tcp := listeners.NewTCP("t1", fmt.Sprintf("%s:%s", b.Broker, strconv.Itoa(b.Port)), nil)
+	listener := listeners.Config{
+		Address: fmt.Sprintf("%s:%d", b.Broker, b.Port),
+	}
+
+	tcp := listeners.NewTCP(listener)
 	err := server.AddListener(tcp)
 	if err != nil {
 		fmt.Println(err)
