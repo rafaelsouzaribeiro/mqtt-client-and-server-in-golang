@@ -3,8 +3,8 @@ package main
 import (
 	"fmt"
 
-	"github.com/rafaelsouzaribeiro/mqtt-client-and-server-in-golang/pkg/mqtt/client"
-	"github.com/rafaelsouzaribeiro/mqtt-client-and-server-in-golang/pkg/payload"
+	"github.com/rafaelsouzaribeiro/mqtt-client-and-server-in-golang/internal/infra/web/mqtt/client"
+	"github.com/rafaelsouzaribeiro/mqtt-client-and-server-in-golang/internal/usecase/dto"
 )
 
 func main() {
@@ -16,8 +16,8 @@ func PublishMessage(clientMessage bool) {
 	svc := client.NewBroker("localhost", 1883)
 
 	go func() {
-		channel := make(chan payload.Payload)
-		svc.SetClient(payload.Payload{
+		channel := make(chan dto.Payload)
+		svc.SetClient(dto.Payload{
 			Username: "root",
 			Password: "123mudar",
 			Topic:    "topic/test",

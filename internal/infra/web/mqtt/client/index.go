@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	mqtt "github.com/eclipse/paho.mqtt.golang"
-	"github.com/rafaelsouzaribeiro/mqtt-client-and-server-in-golang/pkg/payload"
+	"github.com/rafaelsouzaribeiro/mqtt-client-and-server-in-golang/internal/usecase/dto"
 )
 
 var connectHandler mqtt.OnConnectHandler = func(client mqtt.Client) {
@@ -15,7 +15,7 @@ var connectLostHandler mqtt.ConnectionLostHandler = func(client mqtt.Client, err
 	fmt.Printf("Connect lost: %v", err)
 }
 
-func (b *Broker) SetClient(pay payload.Payload, canalChan chan<- payload.Payload) {
+func (b *Broker) SetClient(pay dto.Payload, canalChan chan<- dto.Payload) {
 
 	var broker = b.Broker
 	var port = b.Port
@@ -31,7 +31,7 @@ func (b *Broker) SetClient(pay payload.Payload, canalChan chan<- payload.Payload
 	}
 
 	token := client.Subscribe(pay.Topic, 1, func(c mqtt.Client, m mqtt.Message) {
-		canalChan <- payload.Payload{
+		canalChan <- dto.Payload{
 			Topic:     m.Topic(),
 			Message:   string(m.Payload()),
 			MessageId: m.MessageID(),

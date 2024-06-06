@@ -1,4 +1,4 @@
-package payload
+package dto
 
 type Payload struct {
 	Username  string

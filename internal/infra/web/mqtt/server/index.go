@@ -10,10 +10,10 @@ import (
 	mqtt "github.com/mochi-mqtt/server/v2"
 	"github.com/mochi-mqtt/server/v2/hooks/auth"
 	"github.com/mochi-mqtt/server/v2/listeners"
-	"github.com/rafaelsouzaribeiro/mqtt-client-and-server-in-golang/pkg/payload"
+	"github.com/rafaelsouzaribeiro/mqtt-client-and-server-in-golang/internal/usecase/dto"
 )
 
-func (b *Broker) SetServer(pay *payload.Payload) {
+func (b *Broker) SetServer(pay *dto.Payload) {
 	sigs := make(chan os.Signal, 1)
 	signal.Notify(sigs, syscall.SIGINT, syscall.SIGTERM, os.Interrupt)
 
