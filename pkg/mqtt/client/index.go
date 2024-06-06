@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	mqtt "github.com/eclipse/paho.mqtt.golang"
-	"github.com/rafaelsouzaribeiro/mqtt-client-server-golang/pkg/payload"
+	"github.com/rafaelsouzaribeiro/mqtt-client-and-server-in-golang/pkg/payload"
 )
 
 var connectHandler mqtt.OnConnectHandler = func(client mqtt.Client) {

@@ -1,8 +1,8 @@
 package main
 
 import (
-	"github.com/rafaelsouzaribeiro/mqtt-client-server-golang/pkg/mqtt/server"
-	"github.com/rafaelsouzaribeiro/mqtt-client-server-golang/pkg/payload"
+	"github.com/rafaelsouzaribeiro/mqtt-client-and-server-in-golang/pkg/mqtt/server"
+	"github.com/rafaelsouzaribeiro/mqtt-client-and-server-in-golang/pkg/payload"
 )
 
 func main() {

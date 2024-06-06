@@ -1,4 +1,4 @@
-module github.com/rafaelsouzaribeiro/mqtt-client-server-golang
+module github.com/rafaelsouzaribeiro/mqtt-client-and-server-in-golang
 
 go 1.21.4
 
